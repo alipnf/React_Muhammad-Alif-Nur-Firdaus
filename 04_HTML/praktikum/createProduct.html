@@ -10,39 +10,65 @@
     <h2>Detail Product</h2>
     <form>
       <label for="name">Product Name:</label><br />
-      <input type="text" id="name" name="name" /><br />
-      <label for="categorty">Product Category:</label> <br />
-      <select id="categorty" name="categorty">
-        <option value="baju">baju</option>
-        <option value="sepatu">sepatu</option>
-        <option value="celana">celana</option>
-      </select>
-      <br />
-      <input type="radio" id="brand new" name="brand new" value="brand new" />
-      <label for="brand new">Brand New</label><br />
+      <input
+        type="text"
+        id="name"
+        name="name"
+        minlength="6"
+        maxlength="50"
+        required
+      /><br />
+
+      <label for="category">Product Category:</label><br />
+      <select id="category" name="category" required>
+        <option value="baju">Baju</option>
+        <option value="sepatu">Sepatu</option>
+        <option value="celana">Celana</option></select
+      ><br />
+
       <input
         type="radio"
-        id="second hank"
-        name="second hank"
-        value="second hank"
+        id="brand-new"
+        name="condition"
+        value="brand-new"
+        required
       />
-      <label for="second hank">Second Hank</label><br />
+      <label for="brand-new">Brand New</label><br />
+
+      <input
+        type="radio"
+        id="second-hand"
+        name="condition"
+        value="second-hand"
+        required
+      />
+      <label for="second-hand">Second Hand</label><br />
+
       <input
         type="radio"
         id="refurbished"
-        name="refurbished"
+        name="condition"
         value="refurbished"
+        required
       />
       <label for="refurbished">Refurbished</label><br />
+
       <label for="image">Image of Product:</label>
-      <input type="file" id="image" name="image" />
-      <label for="name"></label> <br />
-      <p><label for="textarea">Additional Description</label></p>
-      <textarea id="textarea" name="textarea" rows="4" cols="50"></textarea>
-      <br />
+      <input type="file" id="image" name="image" /><br /><br />
+
+      <p><label for="textarea">Additional Description:</label></p>
+      <textarea id="textarea" name="textarea" rows="4" cols="50"></textarea
+      ><br />
+
       <label for="price">Product Price:</label><br />
-      <input type="number" id="price" price="price" /><br />
-      <br />
+      <input
+        type="number"
+        id="price"
+        name="price"
+        min="0"
+        required
+      /><br /><br />
+
       <button type="submit">Submit</button>
     </form>
   </body>
