@@ -82,13 +82,17 @@ footer {
   align-items: center;
 }
 
-footer .title {
+.title {
+  display: flex;
   text-align: center;
+  align-items: center;
+  justify-content: center;
   background-color: #f3f5fa;
+  flex-direction: column;
   padding: 50px 335px 50px 426px;
 }
 
-footer .title .join h1 {
+.title .join h1 {
   margin-bottom: 16px;
   font-weight: 600;
   font-size: 24px;
@@ -96,7 +100,7 @@ footer .title .join h1 {
   color: #37517e;
 }
 
-footer .title .join p {
+.title .join p {
   font-family: Open Sans;
   color: #444444;
   font-weight: 400;
@@ -140,8 +144,14 @@ footer .title .join p {
   padding: 60px 82px 30px 80px;
 }
 
-.menu .arsha {
+.menu .arsha,
+.menu .services,
+.menu .links {
   width: 330px;
+}
+
+.menu .sosial {
+  width: 290px;
 }
 
 .menu .arsha h1 {
@@ -194,4 +204,45 @@ footer .title .join p {
   font-size: 16px;
   line-height: 20px;
   color: #37517e;
+}
+
+.sosial p {
+  width: 278px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+  margin-top: 19px;
+  font-family: Open Sans;
+}
+
+.sosial ul {
+  gap: 7.6px;
+  display: flex;
+}
+
+.bottom {
+  background-color: #37517e;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottom .copy {
+  font-family: Open Sans;
+  line-height: 21px;
+  font-weight: 400px;
+  font-size: 14px;
+  margin-left: 90px;
+  color: #ffffff;
+}
+.bottom .bootstrap {
+  margin-right: 80px;
+  font-family: Open Sans;
+  line-height: 21px;
+  font-weight: 400px;
+  font-size: 13px;
+  color: #ffffff;
 }
