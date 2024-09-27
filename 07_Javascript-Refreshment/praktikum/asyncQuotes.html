@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quotes</title>
+  </head>
+  <body>
+    <div id="quote">Klik tombol untuk mendapatkan kutipan.</div>
+
+    <button onclick="displayQuote()">Generate Quote</button>
+
+    <script>
+      let quotes = [];
+
+      async function fetchQuotes() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            quotes = [
+              "Batasan satu-satunya untuk esok adalah keraguan kita hari ini.",
+              "Tujuan hidup kita adalah untuk bahagia.",
+              "Hidup adalah apa yang terjadi saat kita sibuk membuat rencana lain.",
+              "Kesuksesan tidak selalu diukur dengan apa yang kita capai, tetapi dengan apa yang kita atasi.",
+              "Belajarlah dari kemarin, hiduplah untuk hari ini, berharaplah untuk hari esok.",
+            ];
+            resolve();
+          }, 3000);
+        });
+      }
+
+      async function displayQuote() {
+        if (quotes.length === 0) {
+          document.getElementById("quote").innerText = "Mengambil kutipan...";
+          await fetchQuotes();
+        }
+
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        document.getElementById("quote").innerText = randomQuote;
+      }
+      fetchQuotes();
+    </script>
+  </body>
+</html>
