@@ -76,6 +76,7 @@
             class="text-start needs-validation"
             novalidate
             style="margin-top: 10%"
+            id="productForm"
           >
             <h4 class="mb-3">Detail Product</h4>
             <div class="mb-5">
@@ -133,9 +134,9 @@
                   value="brandNew"
                   required
                 />
-                <label class="form-check-label" for="freshness1">
-                  Brand New
-                </label>
+                <label class="form-check-label" for="freshness1"
+                  >Brand New</label
+                >
               </div>
               <div class="form-check">
                 <input
@@ -145,9 +146,9 @@
                   id="freshness2"
                   value="secondHand"
                 />
-                <label class="form-check-label" for="freshness2">
-                  Second Hand
-                </label>
+                <label class="form-check-label" for="freshness2"
+                  >Second Hand</label
+                >
               </div>
               <div class="form-check">
                 <input
@@ -157,9 +158,9 @@
                   id="freshness3"
                   value="refurbished"
                 />
-                <label class="form-check-label" for="freshness3">
-                  Refurbished
-                </label>
+                <label class="form-check-label" for="freshness3"
+                  >Refurbished</label
+                >
               </div>
               <div class="invalid-feedback">
                 Please choose the product freshness.
@@ -197,6 +198,10 @@
               </div>
             </div>
 
+            <div class="alert alert-danger d-none" id="errorAlert" role="alert">
+              input harus berupa angka
+            </div>
+
             <div class="d-flex justify-content-center">
               <button
                 type="submit"
@@ -212,27 +217,83 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="submitModal"
+      tabindex="-1"
+      aria-labelledby="submitModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="submitModalLabel">
+              Submission Successful
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Your product has been successfully submitted!
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
     <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
       (function () {
         "use strict";
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll(".needs-validation");
 
-        // Loop over them and prevent submission
         Array.prototype.slice.call(forms).forEach(function (form) {
           form.addEventListener(
             "submit",
             function (event) {
-              if (!form.checkValidity()) {
+              var priceInput = document.getElementById("productPrice");
+              var errorAlert = document.getElementById("errorAlert");
+              var priceValue = priceInput.value;
+
+              // Reset error alert visibility
+              errorAlert.classList.add("d-none");
+
+              if (
+                !form.checkValidity() ||
+                isNaN(priceValue) ||
+                priceValue.trim() === ""
+              ) {
                 event.preventDefault();
                 event.stopPropagation();
+                // Show error alert if price is not a valid number
+                if (isNaN(priceValue) || priceValue.trim() === "") {
+                  errorAlert.classList.remove("d-none");
+                }
+              } else {
+                // Tampilkan modal jika form valid
+                event.preventDefault(); // Mencegah pengiriman form
+                var submitModal = new bootstrap.Modal(
+                  document.getElementById("submitModal"),
+                );
+                submitModal.show();
               }
 
               form.classList.add("was-validated");
