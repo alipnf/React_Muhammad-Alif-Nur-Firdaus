@@ -1,4 +1,11 @@
+import article from "../data/article";
+
 export default function Main() {
+  const handleClick = () => {
+    const random = Math.floor(Math.random() * 100) + 1; // Menghasilkan angka acak antara 1 dan 100
+    console.log("Random number:", random);
+  };
+
   return (
     <div
       className="container mx-auto px-5 d-flex justify-content-center text-center"
@@ -6,13 +13,15 @@ export default function Main() {
     >
       <div className="row">
         <div className="col mt-5">
-          <img src="../../public/bootstrap-logo.svg" alt="bootstrap-logo" />
-          <h1 className="fw-semibold mt-3">Create Product</h1>
-          <p className="mt-2">
-            Below is an example form built entirely with Bootstrap’s form
-            controls. Each required form group has a validation state that can
-            be triggered by attempting to submit the form without completing it.
-          </p>
+          <img src="/bootstrap-logo.svg" alt="bootstrap-logo" />
+          <h1 className="fw-semibold mt-3">{article.title.en}</h1>
+          <p className="mt-2">{article.description.en}</p>
+
+          {/* Tombol dengan event handler */}
+          <button onClick={handleClick} className="btn btn-primary mt-3">
+            Generate Random Number
+          </button>
+
           <form
             className="text-start needs-validation"
             noValidate
