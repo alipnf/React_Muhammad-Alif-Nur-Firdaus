@@ -1,11 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./page/LandingPage";
+import CreateProduct from "./page/CreateProduct";
 
-function App() {
+export default function App() {
   return (
-    <>
-      <LandingPage />
-    </>
+    <Router>
+      <Routes>
+        {/* Route untuk Landing Page */}
+        <Route path="/" element={<LandingPage />} />
+        {/* Route untuk Create Product Page */}
+        <Route path="/create-product" element={<CreateProduct />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;

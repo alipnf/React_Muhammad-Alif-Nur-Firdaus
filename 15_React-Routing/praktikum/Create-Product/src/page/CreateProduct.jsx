@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateProduct() {
   const [productList, setProductList] = useState([]);
@@ -10,6 +11,13 @@ export default function CreateProduct() {
     freshness: "Brand New",
     price: "",
   });
+  const navigate = useNavigate();
+
+  // Fungsi untuk generate ID barang berdasarkan jumlah produk + 1
+  const generateProductId = () => {
+    const newId = productList.length + 1; // Berdasarkan jumlah produk
+    return newId.toString().padStart(4, "0"); // Mengubah ID menjadi 4 digit, contoh: 0001, 0002
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,12 +29,15 @@ export default function CreateProduct() {
 
     if (isEditing) {
       const updatedProducts = [...productList];
-      updatedProducts[editIndex] = { ...product, id: Date.now() };
+      updatedProducts[editIndex] = {
+        ...product,
+        id: updatedProducts[editIndex].id,
+      };
       setProductList(updatedProducts);
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      const newProduct = { ...product, id: Date.now() }; // Generate ID
+      const newProduct = { ...product, id: generateProductId() }; // Generate ID barang
       setProductList([...productList, newProduct]);
     }
 
@@ -76,34 +87,18 @@ export default function CreateProduct() {
               id="navbarNav"
             >
               <ul className="navbar-nav gap-3 mt-3 mt-md-0">
-                <li className="nav-item bg-primary rounded">
-                  <a
-                    className="nav-link active text-light"
-                    aria-current="page"
-                    href="#"
-                  >
+                <li className="nav-item">
+                  <Link className="nav-link text-primary" to="/">
                     Home
-                  </a>
+                  </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    Features
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    Pricing
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    FAQs
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    About
-                  </a>
+                <li className="nav-item bg-primary">
+                  <Link
+                    className="nav-link active text-light"
+                    to="/create-product"
+                  >
+                    Create Product
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -124,7 +119,7 @@ export default function CreateProduct() {
               type="text"
               className="form-control"
               id="productName"
-              name="name" // tambahkan atribut name
+              name="name"
               value={product.name}
               onChange={handleChange}
               required
@@ -137,7 +132,7 @@ export default function CreateProduct() {
             <select
               className="form-select"
               id="productCategory"
-              name="category" // tambahkan atribut name
+              name="category"
               value={product.category}
               onChange={handleChange}
               required
@@ -194,7 +189,7 @@ export default function CreateProduct() {
               type="number"
               className="form-control"
               id="productPrice"
-              name="price" // tambahkan atribut name
+              name="price"
               value={product.price}
               onChange={handleChange}
               required
@@ -221,8 +216,12 @@ export default function CreateProduct() {
           </thead>
           <tbody>
             {productList.map((product, index) => (
-              <tr key={product.id}>
-                <td>{index + 1}</td>
+              <tr
+                key={product.id}
+                onClick={() => navigate(`/account/${product.id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <td>{product.id}</td> {/* Tampilkan ID barang */}
                 <td>{product.name}</td>
                 <td>{product.category}</td>
                 <td>{product.freshness}</td>

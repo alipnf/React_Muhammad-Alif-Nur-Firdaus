@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -26,33 +27,19 @@ export default function LandingPage() {
             >
               <ul className="navbar-nav gap-3 mt-3 mt-md-0">
                 <li className="nav-item bg-primary rounded">
-                  <a
+                  <Link
                     className="nav-link active text-light"
                     aria-current="page"
                     href="#"
+                    to="/"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    Features
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    Pricing
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    FAQs
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-primary" href="#">
-                    About
-                  </a>
+                  <Link className="nav-link text-primary" to="/create-product">
+                    Create Product
+                  </Link>
                 </li>
               </ul>
             </div>
