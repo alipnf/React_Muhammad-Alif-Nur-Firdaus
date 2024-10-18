@@ -92,7 +92,7 @@ export default function CreateProduct() {
                     Home
                   </Link>
                 </li>
-                <li className="nav-item bg-primary">
+                <li className="nav-item bg-primary rounded">
                   <Link
                     className="nav-link active text-light"
                     to="/create-product"
