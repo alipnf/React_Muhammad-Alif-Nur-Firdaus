@@ -16,6 +16,12 @@ export default function AboutUs() {
               pengetahuan yang terus berkembang, saya berkomitmen untuk
               memberikan hasil terbaik dalam setiap proyek yang saya kerjakan.
             </p>
+            <p className="mb-4 text-lg">
+              Saat ini, saya mendalami teknologi front-end, khususnya React.
+              React memungkinkan saya untuk membangun aplikasi web yang
+              interaktif dan efisien, dengan komponen yang dapat digunakan
+              kembali dan pengelolaan state yang lebih mudah.
+            </p>
             <p className="text-lg">
               Saya percaya bahwa teknologi dapat mengubah cara orang
               berinteraksi dengan dunia, dan saya ingin menjadi bagian dari
