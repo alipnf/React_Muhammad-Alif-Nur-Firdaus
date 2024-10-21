@@ -1,22 +1,24 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
     <div className="navbar bg-base-100 shadow-lg">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl normal-case">
+        <Link to="/" className="btn btn-ghost text-xl normal-case">
           <img src="/assets/logo.png" alt="Logo" className="mr-2 w-28" />
           Alipnf
-        </a>
+        </Link>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/about">About Us</a>
+            <Link to="/about">About Us</Link>
           </li>
           <li>
-            <a href="/portfolio">Portfolio</a>
+            <Link to="/portfolio">Portfolio</Link>
           </li>
         </ul>
       </div>
