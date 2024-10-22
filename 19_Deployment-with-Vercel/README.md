@@ -22,3 +22,7 @@
    - Klik **Deploy** dan Vercel akan melakukan build dan deploy aplikasi Anda.
    - Setelah proses selesai, Anda akan mendapatkan URL live dari aplikasi yang bisa langsung diakses.
 5. **Build dan Preview Otomatis**: Setiap kali Anda melakukan push atau pull request di repository, Vercel akan secara otomatis melakukan build ulang dan menyediakan URL preview.
+
+## Link Tugas Project
+
+[https://react-muhammad-alif-nur-firdaus.vercel.app](https://react-muhammad-alif-nur-firdaus.vercel.app)
