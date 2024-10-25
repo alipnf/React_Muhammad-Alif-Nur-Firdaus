@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./page/LandingPage";
 import CreateProduct from "./page/CreateProduct";
-import ProductDetail from "./page/ProductDetail";
+import ProductDetail from "./page/ProductDetail"; // Pastikan ini diimport
 import Register from "./page/Register";
 import Login from "./page/Login";
 import { Provider } from "react-redux";
@@ -14,7 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/create-product" element={<CreateProduct />} />
-          <Route path="/account/:id" element={<ProductDetail />} />
+          <Route path="/product/:id" element={<ProductDetail />} />{" "}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>

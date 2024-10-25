@@ -1,22 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function ProductDetail() {
   const { id } = useParams(); // Get the ID from the URL
-  const [product, setProduct] = useState(null);
   const navigate = useNavigate(); // Use navigate to go back
 
-  useEffect(() => {
-    const fetchedProduct = {
-      id: id,
-      name: "Sample Product",
-      category: "Category 1",
-      freshness: "Brand New",
-      price: "100",
-    };
+  // Get product list from global state
+  const productList = useSelector((state) => state.products);
+  const product = productList.find((prod) => prod.id === id); // Find product by ID
 
-    setProduct(fetchedProduct);
-  }, [id]);
+  useEffect(() => {
+    if (!product) {
+      // Handle case where product is not found
+      navigate("/create-product");
+    }
+  }, [product, navigate]);
 
   if (!product) return <div>Loading...</div>;
 
@@ -37,6 +36,14 @@ export default function ProductDetail() {
       </p>
       <p>
         <strong>Price:</strong> {product.price}
+      </p>
+      <p>
+        <strong>Image:</strong>
+        <img
+          src={product.image}
+          alt={product.name}
+          style={{ width: "100px", height: "100px" }}
+        />
       </p>
 
       {/* Back button to navigate to Create Product page */}
