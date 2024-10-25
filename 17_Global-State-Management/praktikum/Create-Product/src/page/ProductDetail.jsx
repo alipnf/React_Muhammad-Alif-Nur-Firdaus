@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function ProductDetail() {
-  const { id } = useParams(); // Ambil ID dari URL
+  const { id } = useParams(); // Get the ID from the URL
   const [product, setProduct] = useState(null);
+  const navigate = useNavigate(); // Use navigate to go back
 
   useEffect(() => {
     const fetchedProduct = {
@@ -37,6 +38,14 @@ export default function ProductDetail() {
       <p>
         <strong>Price:</strong> {product.price}
       </p>
+
+      {/* Back button to navigate to Create Product page */}
+      <button
+        className="btn btn-primary"
+        onClick={() => navigate("/create-product")}
+      >
+        Back to Create Product
+      </button>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateProduct() {
-  const [productList, setProductList] = useState([]);
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.products);
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [product, setProduct] = useState({
@@ -15,7 +17,7 @@ export default function CreateProduct() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Fungsi untuk generate ID barang berdasarkan jumlah produk + 1
+  // Function to generate a new product ID
   const generateProductId = () => {
     const newId = productList.length + 1;
     return newId.toString().padStart(4, "0");
@@ -25,27 +27,27 @@ export default function CreateProduct() {
     const newErrors = {};
     const imageTypes = ["image/jpeg", "image/png", "image/gif"];
 
-    // Validasi Product Name
+    // Validation for Product Name
     if (!/^[A-Za-z ]+$/.test(product.name)) {
       newErrors.name = "Product name must only contain letters.";
     }
 
-    // Validasi Product Category
+    // Validation for Product Category
     if (!product.category) {
       newErrors.category = "Please select a product category.";
     }
 
-    // Validasi Product Freshness
+    // Validation for Product Freshness
     if (!product.freshness) {
       newErrors.freshness = "Please select a product freshness.";
     }
 
-    // Validasi Product Price
+    // Validation for Product Price
     if (product.price <= 0 || isNaN(product.price)) {
       newErrors.price = "Price must be a positive number.";
     }
 
-    // Validasi Image
+    // Validation for Image
     if (!product.image) {
       newErrors.image = "Please upload an image.";
     } else if (!imageTypes.includes(product.image.type)) {
@@ -69,26 +71,16 @@ export default function CreateProduct() {
     e.preventDefault();
     if (!validate()) return;
 
-    if (isEditing) {
-      const updatedProducts = [...productList];
-      updatedProducts[editIndex] = {
-        ...product,
-        id: updatedProducts[editIndex].id,
-        image: URL.createObjectURL(product.image), // Mengatur URL untuk gambar
-      };
-      setProductList(updatedProducts);
-      setIsEditing(false);
-      setEditIndex(null);
-    } else {
-      const newProduct = {
-        ...product,
-        id: generateProductId(),
-        image: URL.createObjectURL(product.image), // Mengatur URL untuk gambar
-      };
-      setProductList([...productList, newProduct]);
-    }
+    const newProduct = {
+      ...product,
+      id: generateProductId(),
+      image: URL.createObjectURL(product.image),
+    };
 
-    // Reset form setelah submit
+    // Dispatch action to add a product
+    dispatch({ type: "ADD_PRODUCT", payload: newProduct });
+
+    // Reset form after submission
     setProduct({
       name: "",
       category: "",
@@ -100,15 +92,15 @@ export default function CreateProduct() {
   };
 
   const handleEdit = (index) => {
-    setProduct(productList[index]);
+    const productToEdit = productList[index];
+    setProduct(productToEdit);
     setIsEditing(true);
     setEditIndex(index);
   };
 
   const handleDelete = (index) => {
-    if (window.confirm("Apakah Anda ingin menghapus produk ini?")) {
-      const updatedProducts = productList.filter((_, i) => i !== index);
-      setProductList(updatedProducts);
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      dispatch({ type: "DELETE_PRODUCT", payload: index });
     }
   };
 
@@ -158,7 +150,7 @@ export default function CreateProduct() {
       <div className="container">
         <h1>Create Product Page</h1>
 
-        {/* Form untuk memasukkan produk */}
+        {/* Form for entering product details */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="productName" className="form-label">
@@ -281,31 +273,31 @@ export default function CreateProduct() {
           </button>
         </form>
 
-        {/* Tabel untuk menampilkan produk yang telah ditambahkan */}
+        {/* Table to display added products */}
         <h2 className="mt-5">Product List</h2>
         <table className="table">
           <thead>
             <tr>
-              <th>No</th>
-              <th>Product Name</th>
-              <th>Product Category</th>
-              <th>Product Freshness</th>
-              <th>Product Price</th>
-              <th>Product Image</th>
-              <th>Action</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Freshness</th>
+              <th>Price</th>
+              <th>Image</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {productList.map((product, index) => (
               <tr key={product.id}>
                 <td
-                  onClick={() => navigate(`/account/${product.id}`)}
+                  onClick={() => navigate(`/product/${product.id}`)} // Use navigate here for product details
                   style={{ cursor: "pointer" }}
                 >
                   {product.id}
                 </td>
                 <td
-                  onClick={() => navigate(`/account/${product.id}`)}
+                  onClick={() => navigate(`/product/${product.id}`)} // Use navigate here for product details
                   style={{ cursor: "pointer" }}
                 >
                   {product.name}
@@ -342,7 +334,7 @@ export default function CreateProduct() {
                 </td>
               </tr>
             ))}
-          </tbody>
+          </tbody>{" "}
         </table>
       </div>
     </>
