@@ -1,0 +1,366 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Jost;
+}
+main {
+  background-color: #37517e;
+  display: flex;
+  justify-content: space-between;
+  padding: 153px 83px 81px 82px;
+  gap: 24px;
+}
+
+main .image {
+  margin-top: 8px;
+}
+
+main .image img {
+  width: 636px;
+}
+
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header h1 {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 56px;
+  color: #ffffff;
+}
+
+.header p {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28.8px;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
+.cta {
+  margin-top: 47.8px;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.cta a:nth-child(1) {
+  border-radius: 50px;
+  background-color: #47b2e4;
+  padding: 9px 28.36px 12px 28px;
+}
+
+.cta a {
+  text-decoration: none;
+}
+
+.cta a:nth-child(1) p {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 1px;
+}
+
+.cta a:nth-child(2) p o {
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.cta a p {
+  color: #ffffff;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f5fa;
+  flex-direction: column;
+  padding: 50px 335px 50px 426px;
+}
+
+.title .join h1 {
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 24px;
+  color: #37517e;
+}
+
+.title .join p {
+  font-family: Open Sans;
+  color: #444444;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22.5px;
+}
+.title .subscribe {
+  margin-top: 31.5px;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0px 2px 15px 0px #0000000f;
+  height: 42.5px;
+  width: 636px;
+  justify-content: space-between;
+}
+
+.title input {
+  width: 516px;
+  border: none;
+  border-radius: 50px 0 0 50px;
+}
+
+.title .subscribe a {
+  padding: 9.25px 20px 9.25px 19px;
+  background-color: #47b2e4;
+  border-radius: 50px;
+  text-decoration: none;
+}
+
+.title .subscribe:hover {
+  border: 2px solid #47b2e4;
+  box-shadow: 0px 0px 8px 0px #47b2e4;
+  transition: all 0.3s ease;
+}
+
+/* Efek hover untuk tombol "Subscribe" */
+.title .subscribe a:hover {
+  background-color: #37517e;
+  transition: background-color 0.3s ease;
+}
+
+.title .subscribe a p {
+  font-family: Open Sans;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.menu {
+  display: flex;
+  padding: 60px 82px 30px 80px;
+}
+
+.menu .arsha,
+.menu .services,
+.menu .links {
+  width: 330px;
+}
+
+.menu .sosial {
+  width: 290px;
+}
+
+.menu .arsha h1 {
+  color: #37517e;
+  font-weight: 600;
+  font-size: 24;
+  line-height: 28px;
+}
+
+.menu .arsha .adam {
+  margin-top: 8px;
+  width: 140px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #5e5e5e;
+}
+
+.menu .arsha .text {
+  width: 200px;
+  color: #5e5e5e;
+}
+
+.menu ul {
+  list-style-type: none;
+}
+
+.menu ul li {
+  margin-top: 10px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #777777;
+  font-family: Open Sans;
+  font-weight: 400px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.services,
+.links {
+  width: 330px;
+}
+
+.services h1,
+.sosial h1,
+.links h1 {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: #37517e;
+}
+
+.sosial p {
+  width: 278px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+  margin-top: 19px;
+  font-family: Open Sans;
+}
+
+.sosial ul {
+  gap: 7.6px;
+  display: flex;
+}
+
+.bottom {
+  background-color: #37517e;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottom .copy {
+  font-family: Open Sans;
+  line-height: 21px;
+  font-weight: 400px;
+  font-size: 14px;
+  margin-left: 90px;
+  color: #ffffff;
+}
+.bottom .bootstrap {
+  margin-right: 80px;
+  font-family: Open Sans;
+  line-height: 21px;
+  font-weight: 400px;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 40px;
+  }
+
+  .cta {
+    flex-direction: column;
+    gap: 15px; /* Reduce gap */
+  }
+
+  main .image img {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 80px 20px;
+  }
+
+  .header h1 {
+    font-size: 36px;
+    line-height: 46px;
+  }
+
+  .header p {
+    font-size: 18px;
+  }
+
+  .cta a:nth-child(1) p {
+    font-size: 14px;
+  }
+
+  .cta a:nth-child(2) p {
+    font-size: 14px;
+  }
+
+  .title {
+    padding: 30px 20px;
+  }
+
+  .title .subscribe {
+    width: 100%;
+  }
+
+  .title input {
+    width: 75%;
+  }
+
+  .menu {
+    padding: 40px 20px 20px 20px;
+    flex-direction: column;
+  }
+
+  .menu .arsha,
+  .menu .links,
+  .menu .services,
+  .menu .sosial {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .header p {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .cta a:nth-child(1) p,
+  .cta a:nth-child(2) p {
+    font-size: 12px;
+  }
+
+  main {
+    padding: 50px 15px;
+  }
+
+  .title {
+    padding: 20px 15px;
+  }
+
+  .menu {
+    padding: 20px 15px;
+  }
+
+  .bottom {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .bottom .copy,
+  .bottom .bootstrap {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
