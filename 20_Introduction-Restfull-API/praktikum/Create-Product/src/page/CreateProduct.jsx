@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function CreateProduct() {
   const [productList, setProductList] = useState([]);
@@ -15,12 +14,11 @@ export default function CreateProduct() {
     image: null,
   });
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Fungsi untuk generate ID barang berdasarkan jumlah produk + 1
   const generateProductId = () => {
     const newId = productList.length + 1;
-    return newId.toString().padStart(4, "0");
+    return newId.toString(); // ID tanpa padding nol
   };
 
   const validate = () => {
@@ -67,39 +65,59 @@ export default function CreateProduct() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    if (isEditing) {
-      const updatedProducts = [...productList];
-      updatedProducts[editIndex] = {
-        ...product,
-        id: updatedProducts[editIndex].id,
-        image: URL.createObjectURL(product.image), // Mengatur URL untuk gambar
-      };
-      setProductList(updatedProducts);
-      setIsEditing(false);
-      setEditIndex(null);
-    } else {
-      const newProduct = {
-        ...product,
-        id: generateProductId(),
-        image: URL.createObjectURL(product.image), // Mengatur URL untuk gambar
-      };
-      setProductList([...productList, newProduct]);
-    }
+    try {
+      const formData = new FormData();
+      Object.entries(product).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
-    // Reset form setelah submit
-    setProduct({
-      no: "",
-      name: "",
-      category: "",
-      freshness: "",
-      price: "",
-      image: null,
-    });
-    setErrors({});
+      if (isEditing) {
+        // Update existing product
+        const updatedProduct = {
+          ...product,
+          id: productList[editIndex].id,
+        };
+        await axios.put(
+          `https://6720ed6998bbb4d93ca6b469.mockapi.io/products/${updatedProduct.id}`,
+          updatedProduct,
+        );
+        const updatedProducts = [...productList];
+        updatedProducts[editIndex] = updatedProduct;
+        setProductList(updatedProducts);
+        setSuccessMessage("Product successfully updated!"); // Pesan sukses
+        setIsEditing(false);
+        setEditIndex(null);
+      } else {
+        // Create new product
+        const newProduct = {
+          ...product,
+          id: generateProductId(), // Menggunakan ID yang dihasilkan
+        };
+        const response = await axios.post(
+          "https://6720ed6998bbb4d93ca6b469.mockapi.io/products",
+          newProduct,
+        );
+        setProductList([...productList, response.data]);
+        setSuccessMessage("Product successfully created!"); // Menampilkan pesan sukses
+      }
+
+      // Reset form setelah submit
+      setProduct({
+        name: "",
+        category: "",
+        freshness: "",
+        price: "",
+        image: null,
+      });
+      setErrors({});
+    } catch (error) {
+      console.error(error);
+      alert("Error saving product! Please try again."); // Tampilkan pesan error jika gagal
+    }
   };
 
   const handleEdit = (index) => {
@@ -108,20 +126,30 @@ export default function CreateProduct() {
     setEditIndex(index);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
     if (window.confirm("Apakah Anda ingin menghapus produk ini?")) {
-      const updatedProducts = productList.filter((_, i) => i !== index);
-      setProductList(updatedProducts);
+      try {
+        const productId = productList[index].id;
+        await axios.delete(
+          `https://6720ed6998bbb4d93ca6b469.mockapi.io/products/${productId}`,
+        );
+        const updatedProducts = productList.filter((_, i) => i !== index);
+        setProductList(updatedProducts);
+        setSuccessMessage("Product successfully deleted!"); // Pesan sukses
+      } catch (error) {
+        console.error(error);
+        alert("Error deleting product! Please try again."); // Tampilkan pesan error jika gagal
+      }
     }
   };
+
   useEffect(() => {
     async function fetchProduct() {
       try {
         const res = await axios.get(
-          "https://6720ed6998bbb4d93ca6b469.mockapi.io/product",
+          "https://6720ed6998bbb4d93ca6b469.mockapi.io/products",
         );
         setProductList(res.data);
-        console.log(res.data);
       } catch (error) {
         console.error(error);
       }
@@ -175,6 +203,11 @@ export default function CreateProduct() {
       <div className="container">
         <h1>Create Product Page</h1>
 
+        {/* Menampilkan pesan sukses jika ada */}
+        {successMessage && (
+          <div className="alert alert-success">{successMessage}</div>
+        )}
+
         {/* Form untuk memasukkan produk */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -223,40 +256,49 @@ export default function CreateProduct() {
                   className="form-check-input"
                   type="radio"
                   name="freshness"
+                  id="freshness1"
                   value="Brand New"
                   checked={product.freshness === "Brand New"}
                   onChange={handleChange}
                   required
                 />
-                <label className="form-check-label">Brand New</label>
+                <label className="form-check-label" htmlFor="freshness1">
+                  Brand New
+                </label>
               </div>
               <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="freshness"
+                  id="freshness2"
                   value="Second Hand"
                   checked={product.freshness === "Second Hand"}
                   onChange={handleChange}
                   required
                 />
-                <label className="form-check-label">Second Hand</label>
+                <label className="form-check-label" htmlFor="freshness2">
+                  Second Hand
+                </label>
               </div>
               <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="freshness"
+                  id="freshness3"
                   value="Refurbished"
                   checked={product.freshness === "Refurbished"}
                   onChange={handleChange}
                   required
                 />
-                <label className="form-check-label">Refurbished</label>
+                <label className="form-check-label" htmlFor="freshness3">
+                  Refurbished
+                </label>
               </div>
             </div>
             {errors.freshness && (
-              <div className="invalid-feedback d-block">{errors.freshness}</div>
+              <div className="text-danger">{errors.freshness}</div>
             )}
           </div>
           <div className="mb-3">
@@ -292,41 +334,28 @@ export default function CreateProduct() {
               <div className="invalid-feedback">{errors.image}</div>
             )}
           </div>
-
           <button type="submit" className="btn btn-primary">
-            {isEditing ? "Update" : "Submit"}
+            {isEditing ? "Update Product" : "Create Product"}
           </button>
         </form>
 
-        {/* Tabel untuk menampilkan produk yang telah ditambahkan */}
+        {/* Tabel untuk menampilkan daftar produk */}
         <h2 className="mt-5">Product List</h2>
         <table className="table">
           <thead>
             <tr>
-              <th>No</th>
-              <th>Product Name</th>
-              <th>Product Category</th>
-              <th>Product Freshness</th>
-              <th>Product Price</th>
-              <th>Product Image</th>
-              <th>Action</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Freshness</th>
+              <th>Price</th>
+              <th>Image</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {productList.map((product, index) => (
               <tr key={product.id}>
-                <td
-                  onClick={() => navigate(`/product/${product.id}`)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {product.id}
-                </td>
-                <td
-                  onClick={() => navigate(`/product/${product.id}`)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {product.name}
-                </td>
+                <td>{product.name}</td>
                 <td>{product.category}</td>
                 <td>{product.freshness}</td>
                 <td>{product.price}</td>
@@ -340,19 +369,13 @@ export default function CreateProduct() {
                 <td>
                   <button
                     className="btn btn-warning me-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEdit(index);
-                    }}
+                    onClick={() => handleEdit(index)}
                   >
                     Edit
                   </button>
                   <button
                     className="btn btn-danger"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(index);
-                    }}
+                    onClick={() => handleDelete(index)}
                   >
                     Delete
                   </button>
