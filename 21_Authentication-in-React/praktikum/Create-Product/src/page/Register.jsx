@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // Menyimpan pesan error
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -29,14 +33,45 @@ export default function Register() {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Form data", values);
-      // Lakukan proses registrasi
+      // Ambil data pengguna yang sudah ada dari localStorage
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Periksa apakah email atau username sudah terdaftar
+      const isUserExist = users.some(
+        (user) =>
+          user.email === values.email || user.username === values.username,
+      );
+
+      if (isUserExist) {
+        setErrorMessage("Email or username already exists");
+      } else {
+        // Tambahkan pengguna baru ke daftar
+        const newUser = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          username: values.username,
+          email: values.email,
+          password: values.password,
+        };
+        users.push(newUser);
+
+        // Simpan kembali ke localStorage
+        localStorage.setItem("users", JSON.stringify(users));
+
+        // Redirect ke halaman login
+        navigate("/");
+      }
     },
   });
 
   return (
     <div className="container">
       <h1>Register</h1>
+      {errorMessage && (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">
@@ -44,7 +79,11 @@ export default function Register() {
           </label>
           <input
             type="text"
-            className={`form-control ${formik.touched.firstName && formik.errors.firstName ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.firstName && formik.errors.firstName
+                ? "is-invalid"
+                : ""
+            }`}
             id="firstName"
             name="firstName"
             onChange={formik.handleChange}
@@ -62,7 +101,11 @@ export default function Register() {
           </label>
           <input
             type="text"
-            className={`form-control ${formik.touched.lastName && formik.errors.lastName ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.lastName && formik.errors.lastName
+                ? "is-invalid"
+                : ""
+            }`}
             id="lastName"
             name="lastName"
             onChange={formik.handleChange}
@@ -80,7 +123,11 @@ export default function Register() {
           </label>
           <input
             type="text"
-            className={`form-control ${formik.touched.username && formik.errors.username ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.username && formik.errors.username
+                ? "is-invalid"
+                : ""
+            }`}
             id="username"
             name="username"
             onChange={formik.handleChange}
@@ -98,7 +145,9 @@ export default function Register() {
           </label>
           <input
             type="email"
-            className={`form-control ${formik.touched.email && formik.errors.email ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.email && formik.errors.email ? "is-invalid" : ""
+            }`}
             id="email"
             name="email"
             onChange={formik.handleChange}
@@ -116,7 +165,11 @@ export default function Register() {
           </label>
           <input
             type="password"
-            className={`form-control ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.password && formik.errors.password
+                ? "is-invalid"
+                : ""
+            }`}
             id="password"
             name="password"
             onChange={formik.handleChange}
@@ -134,7 +187,11 @@ export default function Register() {
           </label>
           <input
             type="password"
-            className={`form-control ${formik.touched.confirmPassword && formik.errors.confirmPassword ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.confirmPassword && formik.errors.confirmPassword
+                ? "is-invalid"
+                : ""
+            }`}
             id="confirmPassword"
             name="confirmPassword"
             onChange={formik.handleChange}

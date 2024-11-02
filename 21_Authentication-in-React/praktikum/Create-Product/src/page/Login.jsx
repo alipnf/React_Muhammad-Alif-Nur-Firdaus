@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // State untuk menyimpan pesan error
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,14 +19,30 @@ export default function Login() {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      console.log("Login data", values);
-      // Lakukan proses login
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const user = users.find(
+        (user) =>
+          user.email === values.email && user.password === values.password,
+      );
+
+      if (user) {
+        // Simpan pengguna yang sedang login ke localStorage
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        navigate("/LandingPage");
+      } else {
+        setErrorMessage("Invalid email or password"); // Set pesan error jika login gagal
+      }
     },
   });
 
   return (
     <div className="container">
       <h1>Login</h1>
+      {errorMessage && (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
@@ -30,7 +50,9 @@ export default function Login() {
           </label>
           <input
             type="email"
-            className={`form-control ${formik.touched.email && formik.errors.email ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.email && formik.errors.email ? "is-invalid" : ""
+            }`}
             id="email"
             name="email"
             onChange={formik.handleChange}
@@ -48,7 +70,11 @@ export default function Login() {
           </label>
           <input
             type="password"
-            className={`form-control ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
+            className={`form-control ${
+              formik.touched.password && formik.errors.password
+                ? "is-invalid"
+                : ""
+            }`}
             id="password"
             name="password"
             onChange={formik.handleChange}
@@ -66,7 +92,7 @@ export default function Login() {
       </form>
 
       <p className="mt-3">
-        Dont have an account? <Link to="/register">Register</Link>
+        Don’t have an account? <Link to="/register">Register</Link>
       </p>
     </div>
   );
