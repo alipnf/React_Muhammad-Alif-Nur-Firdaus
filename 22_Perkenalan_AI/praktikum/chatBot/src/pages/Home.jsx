@@ -2,6 +2,7 @@ import { useState } from "react";
 import ChatBubble from "../components/ChatBubble";
 import InputChat from "../components/InputChat";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { useRef } from "react";
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -41,9 +42,13 @@ export default function Home() {
 
   return (
     <>
-      <div className="container mx-auto mb-9 mt-9 flex h-screen flex-col gap-5">
+      <div className="container mx-auto mb-9 mt-9 flex flex-col gap-5">
         <ChatBubble messages={messages} setMessages={setMessages} />
-        <InputChat handleSendMessage={handleSendMessage} setInput={setInput} />
+        <InputChat
+          handleSendMessage={handleSendMessage}
+          setInput={setInput}
+          input={input}
+        />
       </div>
     </>
   );
